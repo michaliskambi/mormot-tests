@@ -40,5 +40,10 @@ begin
   TIntegrationTests.RunAsConsole('Calculator Tests',
     LOG_FILTER[lfExceptions] // + [sllErrors, sllWarning]
   );
+
+  // Additional info about memory status
+  // {$ifdef FPC_X64MM}
+  // WriteHeapStatus(' ', 16, 8, {compileflags=}true);
+  // {$endif FPC_X64MM}
 end.
 

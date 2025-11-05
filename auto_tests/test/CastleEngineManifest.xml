@@ -10,6 +10,19 @@ See https://castle-engine.io/project_manifest for documentation of this file.
 >
   <data exists="false" />
   <compiler_options>
+    <defines>
+      <!--
+        Testing various defines from mormot2tests.
+        We leave uncommented the minimum to detect memory leaks.
+      -->
+      <!-- <define>FPC_NO_DEFAULT_MEMORYMANAGER</define> -->
+      <define>FPC_X64MM</define>
+      <!-- <define>FPCMM_DEBUG</define> -->
+      <define>FPCMM_REPORTMEMORYLEAKS</define>
+      <!-- <define>PUREMORMOT2</define> -->
+      <!-- <define>FPCMM_SERVER</define> -->
+      <!-- <define>FPCMM_ASSUMEMULTITHREAD</define> -->
+    </defines>
     <search_paths>
       <!-- Access main program units -->
       <path value="../" />
