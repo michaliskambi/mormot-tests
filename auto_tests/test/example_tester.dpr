@@ -15,21 +15,38 @@ uses
   classes,
   sysutils,
   mormot.core.base,
+  mormot.core.os,
   mormot.core.log,
   mormot.core.test,
   // add below all your test units
   test.calculator;
 
-{ TIntegrationTests }
+{ TAllTests }
 
 type
-  TIntegrationTests = class(TSynTestsLogged)
+  TAllTests = class(TSynTestsLogged)
+  public
+    class procedure RunAsConsole(const CustomIdent: string = '';
+      withLogs: TSynLogLevels = [sllLastError, sllError, sllException, sllExceptionOS, sllFail];
+      options: TSynTestOptions = []; const workdir: TFileName = ''); override;
   published
     // All published methods will run
     procedure CoreUnits;
   end;
 
-procedure TIntegrationTests.CoreUnits;
+class procedure TAllTests.RunAsConsole(const CustomIdent: string;
+  withLogs: TSynLogLevels; options: TSynTestOptions; const workdir: TFileName);
+begin
+  { Make the TSynTests.RunAsConsole behavior more comfortable than in mORMot
+    default: accept --noenter on all systems, not only on Windows.
+    Makes it easier to write cross-platform scripts. }
+  {$ifdef OSPOSIX}
+  Executable.Command.Option('noenter', 'do not wait for ENTER key on exit (ignored on POSIX systems)');
+  {$endif OSPOSIX}
+  inherited;
+end;
+
+procedure TAllTests.CoreUnits;
 begin
   AddCase([
     TTestCalculator
@@ -37,7 +54,7 @@ begin
 end;
 
 begin
-  TIntegrationTests.RunAsConsole('Calculator Tests',
+  TAllTests.RunAsConsole('Calculator Tests',
     LOG_FILTER[lfExceptions] // + [sllErrors, sllWarning]
   );
 
