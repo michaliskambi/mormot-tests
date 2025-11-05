@@ -1,4 +1,4 @@
 # Unix binary
-logs_test
+auto_tests
 *.log
 castle-engine-output/
